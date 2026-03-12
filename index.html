@@ -1,38 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
-<title>Portfolio Hugo Zamora</title>
 <meta charset="UTF-8">
+<title>Portfolio Hugo Zamora</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<header>
 <h1>Hugo Zamora</h1>
+<p>Étudiant en informatique | Réseaux & Systèmes</p>
+</header>
 
-<p>Étudiant en informatique spécialisé en réseaux et systèmes.</p>
+<nav>
+<a href="#about">À propos</a>
+<a href="#skills">Compétences</a>
+<a href="#projects">Projets</a>
+<a href="#contact">Contact</a>
+</nav>
 
+<section id="about">
+<h2>À propos de moi</h2>
+<p>
+Je suis étudiant en informatique passionné par les réseaux, 
+les systèmes Linux et l'administration d'infrastructures.
+</p>
+</section>
+
+<section id="skills">
 <h2>Compétences</h2>
 
-<ul>
-<li>Linux</li>
-<li>Windows Server</li>
-<li>Cisco</li>
-<li>GLPI</li>
-</ul>
+<div class="cards">
+
+<div class="card">
+<h3>Réseaux</h3>
+<p>VLAN, TCP/IP, Routage</p>
+</div>
+
+<div class="card">
+<h3>Systèmes</h3>
+<p>Linux, Windows Server</p>
+</div>
+
+<div class="card">
+<h3>Outils</h3>
+<p>GLPI, VirtualBox</p>
+</div>
+
+</div>
+
+</section>
+
+<section id="projects">
 
 <h2>Projets</h2>
 
+<div class="cards">
+
+<div class="card">
 <h3>Lab réseau Cisco</h3>
-<p>Configuration de VLAN et routage sur Cisco Packet Tracer.</p>
+<p>Configuration VLAN et routage.</p>
+</div>
 
+<div class="card">
 <h3>Serveur GLPI</h3>
-<p>Installation et configuration d’un serveur GLPI.</p>
+<p>Gestion de parc informatique.</p>
+</div>
 
+</div>
+
+</section>
+
+<section id="contact">
 <h2>Contact</h2>
+<p>Email : tonemail@email.com</p>
+</section>
 
-<p>Email : hugozam@hotmail.fr</p>
+<footer>
+<p>© 2026 Hugo Zamora</p>
+</footer>
 
 </body>
-
 </html>
