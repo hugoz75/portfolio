@@ -27,5 +27,4 @@ Installation et configuration d'un serveur GLPI pour gérer un parc informatique
 
 ## Contact
 
-Email : tonemail@email.com
-LinkedIn : lien
+Email : hugozam@hotmail.fr
