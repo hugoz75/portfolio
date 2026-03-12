@@ -51,7 +51,6 @@ Fonctionnalités :
 - Gestion des tickets
 - Administration des utilisateurs
 
-![Serveur GLPI](images/glpi.png)
 
 ---
 
