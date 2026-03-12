@@ -1,30 +1,71 @@
-# Hugo Zamora
+# 👋 Hugo Zamora
 
-Étudiant en informatique spécialisé en réseaux et systèmes.
+🎓 Étudiant en informatique spécialisé en réseaux et systèmes.
 
-## Compétences
+Passionné par l'administration système, les infrastructures réseau et la virtualisation.  
+Je développe mes compétences à travers des projets pratiques et des laboratoires techniques.
 
+---
+
+# 🧠 Compétences
+
+### Systèmes
 - Linux
 - Windows Server
-- Cisco
-- GLPI
-- Virtualisation
+- Active Directory
 
-## Projets
+### Réseaux
+- TCP/IP
+- VLAN
+- Routage
 
-### Lab réseau Cisco
-Configuration de VLAN et routage sur Cisco Packet Tracer.
-
-### Serveur GLPI
-Installation et configuration d'un serveur GLPI pour gérer un parc informatique.
-
-## Outils utilisés
-
+### Outils
 - Cisco Packet Tracer
 - VirtualBox
-- Linux
 - GLPI
+- Git
 
-## Contact
+---
 
-Email : hugozam@hotmail.fr
+# 🚀 Projets
+
+## 🔧 Lab Réseau Cisco
+
+Simulation d'une infrastructure réseau avec VLAN et routage.
+
+Technologies utilisées :
+- Cisco Packet Tracer
+- VLAN
+- Routing
+
+![Lab réseau](images/lab-cisco.png)
+
+---
+
+## 🖥️ Serveur GLPI
+
+Installation et configuration d'un serveur de gestion de parc informatique.
+
+Fonctionnalités :
+- Gestion d'inventaire
+- Gestion des tickets
+- Administration des utilisateurs
+
+![Serveur GLPI](images/glpi.png)
+
+---
+
+# 🛠️ Outils utilisés
+
+- Linux
+- Git
+- VirtualBox
+- Cisco Packet Tracer
+
+---
+
+# 📫 Contact
+
+Email : tonemail@email.com  
+LinkedIn : ton lien  
+GitHub : https://github.com/tonpseudo
