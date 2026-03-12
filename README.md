@@ -65,6 +65,5 @@ Fonctionnalités :
 
 # 📫 Contact
 
-Email : tonemail@email.com  
-LinkedIn : ton lien  
-GitHub : https://github.com/tonpseudo
+Email : hugozam@hotmail.fr
+GitHub : https://github.com/hugoz75
