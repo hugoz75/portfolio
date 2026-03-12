@@ -38,7 +38,7 @@ Technologies utilisées :
 - VLAN
 - Routing
 
-![Lab réseau](images/lab-cisco.png)
+![Lab réseau](lab-cisco.png)
 
 ---
 
