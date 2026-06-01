@@ -10,6 +10,7 @@
   :root {
     --bg: #0d0d0d;
     --surface: #161616;
+    --surface2: #1c1c1c;
     --border: rgba(255,255,255,0.08);
     --blue: #2997ff;
     --text: #f5f5f7;
@@ -27,29 +28,44 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* NAV */
+  /* ── PAGE SYSTEM ── */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; }
+
+  /* ── NAV ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     height: 52px;
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 2.5rem;
-    background: rgba(13,13,13,0.72);
+    background: rgba(13,13,13,0.82);
     backdrop-filter: saturate(180%) blur(20px);
     border-bottom: 1px solid var(--border);
   }
   .nav-logo {
     font-family: 'DM Serif Display', serif;
-    font-size: 1.05rem; color: var(--text); text-decoration: none;
+    font-size: 1.05rem; color: var(--text); text-decoration: none; cursor: pointer;
   }
   .nav-links { display: flex; gap: 2.5rem; }
   .nav-links a {
     color: var(--muted); text-decoration: none;
-    font-size: .8rem; font-weight: 400; transition: color .2s;
+    font-size: .8rem; font-weight: 400; transition: color .2s; cursor: pointer;
   }
   .nav-links a:hover { color: var(--text); }
 
-  /* HERO */
-  #hero {
+  /* ── BACK BUTTON ── */
+  .back-btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    color: var(--blue); font-size: .85rem; cursor: pointer;
+    margin-bottom: 2.5rem; background: none; border: none;
+    font-family: 'DM Sans', sans-serif; padding: 0;
+    transition: opacity .2s;
+  }
+  .back-btn:hover { opacity: .7; }
+  .back-btn::before { content: '←'; }
+
+  /* ── HERO ── */
+  #hero-section {
     min-height: 100vh;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
@@ -76,12 +92,12 @@
     opacity: 0; animation: rise .9s .5s cubic-bezier(.16,1,.3,1) forwards;
   }
 
-  /* BUTTONS */
+  /* ── BUTTONS ── */
   .btn {
     display: inline-block; padding: .65rem 1.5rem;
     border-radius: 980px; font-size: .85rem; font-weight: 400;
     text-decoration: none; transition: all .22s;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DM Sans', sans-serif; cursor: pointer; border: none;
   }
   .btn-fill { background: var(--blue); color: #fff; }
   .btn-fill:hover { background: #0077ed; }
@@ -91,7 +107,7 @@
   }
   .btn-outline:hover { background: rgba(255,255,255,0.1); }
 
-  /* SECTIONS */
+  /* ── SECTIONS ── */
   .section-wrap {
     max-width: 860px; margin: 0 auto;
     padding: 7rem 2rem; border-top: 1px solid var(--border);
@@ -107,24 +123,21 @@
     margin-bottom: 3rem;
   }
 
-  /* ABOUT */
+  /* ── ABOUT ── */
   .about-body {
     display: grid; grid-template-columns: 1.4fr 1fr;
     gap: 5rem; align-items: start;
   }
   .about-text p { color: var(--muted); font-size: 1rem; line-height: 1.75; margin-bottom: 1rem; }
   .about-text p:last-child { margin-bottom: 0; }
-  .about-stats { display: flex; flex-direction: column; gap: 0; }
+  .about-stats { display: flex; flex-direction: column; }
   .stat { padding: 1.25rem 0; border-bottom: 1px solid var(--border); }
   .stat:first-child { padding-top: 0; }
   .stat:last-child { border-bottom: none; }
-  .stat-val {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.75rem; color: var(--text); line-height: 1; margin-bottom: .2rem;
-  }
+  .stat-val { font-family: 'DM Serif Display', serif; font-size: 1.75rem; color: var(--text); line-height: 1; margin-bottom: .2rem; }
   .stat-key { font-size: .78rem; color: var(--muted); }
 
-  /* TIMELINE */
+  /* ── TIMELINE ── */
   .timeline { display: flex; flex-direction: column; }
   .tl-item {
     display: grid; grid-template-columns: 110px 1fr;
@@ -136,16 +149,25 @@
   .tl-title { font-size: 1rem; font-weight: 500; color: var(--text); margin-bottom: .35rem; }
   .tl-desc { font-size: .875rem; color: var(--muted); line-height: 1.6; }
 
-  /* SKILLS */
+  /* ── CLICKABLE SKILL CARDS ── */
   .skills-grid {
     display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 1px; background: var(--border);
     border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
   }
   .skill-cell {
-    background: var(--surface); padding: 2rem 1.75rem; transition: background .2s;
+    background: var(--surface); padding: 2rem 1.75rem;
+    transition: background .2s; cursor: pointer;
+    position: relative;
   }
-  .skill-cell:hover { background: #1c1c1c; }
+  .skill-cell:hover { background: #1e1e1e; }
+  .skill-cell:hover .cell-arrow { opacity: 1; transform: translateX(0); }
+  .cell-arrow {
+    position: absolute; top: 1.75rem; right: 1.75rem;
+    color: var(--blue); font-size: .9rem;
+    opacity: 0; transform: translateX(-4px);
+    transition: all .2s;
+  }
   .skill-heading {
     font-size: .72rem; font-weight: 500; letter-spacing: .06em;
     text-transform: uppercase; color: var(--blue); margin-bottom: 1rem;
@@ -160,7 +182,7 @@
     border-radius: 50%; background: var(--blue); flex-shrink: 0;
   }
 
-  /* PROJECTS */
+  /* ── CLICKABLE PROJECT ROWS ── */
   .projects-list {
     display: flex; flex-direction: column;
     gap: 1px; background: var(--border);
@@ -168,29 +190,109 @@
   }
   .project-row {
     background: var(--surface); padding: 2rem;
-    display: grid; grid-template-columns: 2.5rem 1fr;
-    gap: 1.5rem; align-items: start; transition: background .2s;
+    display: grid; grid-template-columns: 2.5rem 1fr auto;
+    gap: 1.5rem; align-items: center;
+    transition: background .2s; cursor: pointer;
   }
   .project-row:hover { background: #1a1a1a; }
+  .project-row:hover .row-arrow { color: var(--blue); }
   .project-index {
     font-family: 'DM Serif Display', serif;
-    font-size: 1.1rem; color: var(--muted); opacity: .45; padding-top: .1rem;
+    font-size: 1.1rem; color: var(--muted); opacity: .45;
   }
-  .project-name { font-size: 1rem; font-weight: 500; color: var(--text); margin-bottom: .4rem; }
+  .project-name { font-size: 1rem; font-weight: 500; color: var(--text); margin-bottom: .35rem; }
   .project-desc { font-size: .875rem; color: var(--muted); line-height: 1.6; }
+  .row-arrow { color: var(--muted); font-size: 1rem; transition: color .2s; flex-shrink: 0; }
 
-  /* CONTACT */
+  /* ── CONTACT ── */
   .contact-body { max-width: 480px; margin: 0 auto; text-align: center; }
   .contact-body p { color: var(--muted); font-size: .95rem; margin-bottom: 2.5rem; line-height: 1.75; }
   .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
 
-  /* FOOTER */
+  /* ── FOOTER ── */
   footer {
     border-top: 1px solid var(--border);
     padding: 1.75rem 2.5rem;
     display: flex; justify-content: space-between; align-items: center;
   }
   footer span { font-size: .78rem; color: var(--muted); }
+
+  /* ── DETAIL PAGE ── */
+  .detail-page { padding-top: 52px; }
+  .detail-hero {
+    padding: 5rem 2rem 3rem;
+    max-width: 860px; margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .detail-tag {
+    font-size: .72rem; font-weight: 500; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--blue); margin-bottom: .75rem;
+  }
+  .detail-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400; line-height: 1.1; letter-spacing: -.02em;
+    margin-bottom: 1.25rem;
+  }
+  .detail-intro { color: var(--muted); font-size: 1.05rem; line-height: 1.75; max-width: 600px; }
+
+  .detail-body {
+    max-width: 860px; margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+  }
+
+  /* blocks inside detail */
+  .detail-section { margin-bottom: 3.5rem; }
+  .detail-section:last-child { margin-bottom: 0; }
+
+  .detail-section-title {
+    font-size: .72rem; font-weight: 500; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--blue);
+    margin-bottom: 1.25rem;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .detail-text { color: var(--muted); font-size: .95rem; line-height: 1.8; margin-bottom: 1rem; }
+  .detail-text:last-child { margin-bottom: 0; }
+
+  /* pill tags */
+  .tags-wrap { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .pill {
+    padding: .35rem .9rem;
+    border: 1px solid var(--border);
+    border-radius: 980px;
+    font-size: .8rem; color: var(--muted);
+    background: var(--surface);
+  }
+
+  /* info grid */
+  .info-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  }
+  .info-cell {
+    background: var(--surface); padding: 1.5rem;
+  }
+  .info-key { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: .4rem; }
+  .info-val { font-size: .95rem; color: var(--text); font-weight: 400; }
+
+  /* step list */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid; grid-template-columns: 2rem 1fr;
+    gap: 1.25rem; padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border); align-items: start;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'DM Serif Display', serif;
+    color: var(--blue); font-size: 1rem; padding-top: .1rem;
+  }
+  .step-content {}
+  .step-title { font-size: .95rem; font-weight: 500; color: var(--text); margin-bottom: .35rem; }
+  .step-desc { font-size: .875rem; color: var(--muted); line-height: 1.65; }
 
   /* REVEAL */
   .reveal {
@@ -203,6 +305,13 @@
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .page.active .detail-hero,
+  .page.active .detail-body { animation: fadeIn .5s cubic-bezier(.16,1,.3,1) both; }
+  .page.active .detail-body { animation-delay: .08s; }
 
   @media (max-width: 680px) {
     nav { padding: 0 1.25rem; }
@@ -212,162 +321,620 @@
     .tl-item { grid-template-columns: 1fr; gap: .2rem; }
     .section-wrap { padding: 5rem 1.25rem; }
     footer { flex-direction: column; gap: .4rem; text-align: center; }
+    .project-row { grid-template-columns: 2.5rem 1fr auto; }
   }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="#hero" class="nav-logo">Hugo Zamora</a>
+  <span class="nav-logo" onclick="goHome()">Hugo Zamora</span>
   <div class="nav-links">
-    <a href="#about">À propos</a>
-    <a href="#parcours">Parcours</a>
-    <a href="#skills">Compétences</a>
-    <a href="#projects">Projets</a>
-    <a href="#contact">Contact</a>
+    <a onclick="goHome(); scrollTo('about')">À propos</a>
+    <a onclick="goHome(); scrollTo('parcours')">Parcours</a>
+    <a onclick="goHome(); scrollTo('skills')">Compétences</a>
+    <a onclick="goHome(); scrollTo('projects')">Projets</a>
+    <a onclick="goHome(); scrollTo('contact')">Contact</a>
   </div>
 </nav>
 
-<section id="hero">
-  <p class="hero-eyebrow">Alternant · Réseaux &amp; Systèmes</p>
-  <h1 class="hero-name">Hugo Zamora</h1>
-  <p class="hero-sub">Infrastructure · Réseaux · Systèmes d'information</p>
-  <div class="hero-actions">
-    <a href="BTS_SIO_CV_Hugo_ZAMORA_AURLOM.pdf.pdf" class="btn btn-fill">Voir le CV</a>
-    <a href="#projects" class="btn btn-outline">Projets</a>
-  </div>
-</section>
+<!-- ═══════════════════════════════════════════
+     HOME PAGE
+════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
 
-<div id="about">
-  <div class="section-wrap reveal">
-    <p class="section-label">À propos</p>
-    <h2 class="section-title">Passionné par les infrastructures.</h2>
-    <div class="about-body">
-      <div class="about-text">
-        <p>Alternant en informatique, je me spécialise dans les réseaux, les systèmes et leurs communications. J'aime comprendre comment les infrastructures fonctionnent et les rendre plus robustes.</p>
-        <p>Curieux et autonome, je cherche à me confronter à des problématiques techniques concrètes en environnement professionnel.</p>
+  <section id="hero-section">
+    <p class="hero-eyebrow">Alternant · Réseaux &amp; Systèmes</p>
+    <h1 class="hero-name">Hugo Zamora</h1>
+    <p class="hero-sub">Infrastructure · Réseaux · Systèmes d'information</p>
+    <div class="hero-actions">
+      <a href="BTS_SIO_CV_Hugo_ZAMORA_AURLOM.pdf.pdf" class="btn btn-fill">Voir le CV</a>
+      <span class="btn btn-outline" onclick="scrollTo('projects')">Projets</span>
+    </div>
+  </section>
+
+  <div id="about">
+    <div class="section-wrap reveal">
+      <p class="section-label">À propos</p>
+      <h2 class="section-title">Passionné par les infrastructures.</h2>
+      <div class="about-body">
+        <div class="about-text">
+          <p>Alternant en informatique, je me spécialise dans les réseaux, les systèmes et leurs communications. J'aime comprendre comment les infrastructures fonctionnent et les rendre plus robustes.</p>
+          <p>Curieux et autonome, je cherche à me confronter à des problématiques techniques concrètes en environnement professionnel.</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat"><div class="stat-val">BTS CIEL</div><div class="stat-key">Formation en cours</div></div>
+          <div class="stat"><div class="stat-val">3 projets</div><div class="stat-key">Réalisés</div></div>
+          <div class="stat"><div class="stat-val">Alternance</div><div class="stat-key">Disponible</div></div>
+        </div>
       </div>
-      <div class="about-stats">
-        <div class="stat"><div class="stat-val">BTS CIEL</div><div class="stat-key">Formation en cours</div></div>
-        <div class="stat"><div class="stat-val">3 projets</div><div class="stat-key">Réalisés</div></div>
-        <div class="stat"><div class="stat-val">Alternance</div><div class="stat-key">Emmaus-Solidarité</div></div>
+    </div>
+  </div>
+
+  <div id="parcours">
+    <div class="section-wrap reveal">
+      <p class="section-label">Parcours</p>
+      <h2 class="section-title">Formations.</h2>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-year">En cours</div>
+          <div>
+            <div class="tl-title">BTS CIEL — Cybersécurité, Informatique et réseaux, Électronique</div>
+            <div class="tl-desc">Spécialisation systèmes, réseaux et sécurité informatique.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">Antérieur</div>
+          <div>
+            <div class="tl-title">Licence Physique</div>
+            <div class="tl-desc">Bases scientifiques et rigueur analytique appliquée.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">Bac</div>
+          <div>
+            <div class="tl-title">BAC STI2D</div>
+            <div class="tl-desc">Sciences et Technologies de l'Industrie et du Développement Durable.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="skills">
+    <div class="section-wrap reveal">
+      <p class="section-label">Compétences</p>
+      <h2 class="section-title">Stack technique.</h2>
+      <div class="skills-grid">
+        <div class="skill-cell" onclick="showPage('skill-reseaux')">
+          <span class="cell-arrow">→</span>
+          <div class="skill-heading">Réseaux</div>
+          <ul class="skill-list"><li>VLAN</li><li>TCP/IP</li><li>Routage</li><li>Cisco</li></ul>
+        </div>
+        <div class="skill-cell" onclick="showPage('skill-systemes')">
+          <span class="cell-arrow">→</span>
+          <div class="skill-heading">Systèmes</div>
+          <ul class="skill-list"><li>Linux</li><li>Windows Server</li><li>MDT</li><li>MDM</li></ul>
+        </div>
+        <div class="skill-cell" onclick="showPage('skill-outils')">
+          <span class="cell-arrow">→</span>
+          <div class="skill-heading">Outils &amp; Cloud</div>
+          <ul class="skill-list"><li>GLPI</li><li>VirtualBox</li><li>Microsoft Azure</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="projects">
+    <div class="section-wrap reveal">
+      <p class="section-label">Projets</p>
+      <h2 class="section-title">Réalisations.</h2>
+      <div class="projects-list">
+        <div class="project-row" onclick="showPage('proj-cisco')">
+          <div class="project-index">01</div>
+          <div>
+            <div class="project-name">Lab réseau Cisco</div>
+            <div class="project-desc">Configuration de VLANs et routage inter-VLAN sur équipements Cisco.</div>
+          </div>
+          <span class="row-arrow">→</span>
+        </div>
+        <div class="project-row" onclick="showPage('proj-glpi')">
+          <div class="project-index">02</div>
+          <div>
+            <div class="project-name">Serveur GLPI</div>
+            <div class="project-desc">Déploiement et administration d'une solution de gestion de parc informatique.</div>
+          </div>
+          <span class="row-arrow">→</span>
+        </div>
+        <div class="project-row" onclick="showPage('proj-flotte')">
+          <div class="project-index">03</div>
+          <div>
+            <div class="project-name">Déploiement &amp; Gestion de flotte</div>
+            <div class="project-desc">Déploiement automatisé via MDT et gestion centralisée via MDM.</div>
+          </div>
+          <span class="row-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="contact">
+    <div class="section-wrap reveal">
+      <p class="section-label">Contact</p>
+      <h2 class="section-title" style="text-align:center">Travaillons ensemble.</h2>
+      <div class="contact-body">
+        <p>Disponible pour une alternance ou une opportunité dans les réseaux &amp; systèmes.</p>
+        <div class="contact-links">
+          <a href="BTS_SIO_CV_Hugo_ZAMORA_AURLOM.pdf.pdf" class="btn btn-fill">Télécharger le CV</a>
+          <a href="https://github.com/hugoz75" class="btn btn-outline" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Hugo Zamora</span>
+    <span>© 2026</span>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SKILL — RÉSEAUX
+════════════════════════════════════════════ -->
+<div class="page detail-page" id="page-skill-reseaux">
+  <div class="detail-hero">
+    <button class="back-btn" onclick="goHome()">Compétences</button>
+    <p class="detail-tag">Compétences · Réseaux</p>
+    <h1 class="detail-title">Réseaux</h1>
+    <p class="detail-intro">Architecture, configuration et dépannage de réseaux d'entreprise. Maîtrise des protocoles fondamentaux et des équipements Cisco.</p>
+  </div>
+  <div class="detail-body">
+    <div class="detail-section">
+      <div class="detail-section-title">Technologies maîtrisées</div>
+      <div class="tags-wrap">
+        <span class="pill">VLAN</span>
+        <span class="pill">TCP/IP</span>
+        <span class="pill">Routage statique</span>
+        <span class="pill">Routage dynamique</span>
+        <span class="pill">Inter-VLAN routing</span>
+        <span class="pill">Spanning Tree (STP)</span>
+        <span class="pill">NAT / PAT</span>
+        <span class="pill">DHCP</span>
+        <span class="pill">DNS</span>
+        <span class="pill">Cisco IOS</span>
+        <span class="pill">Packet Tracer</span>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Niveau &amp; contexte</div>
+      <div class="info-grid">
+        <div class="info-cell"><div class="info-key">Niveau</div><div class="info-val">BTS CIEL</div></div>
+        <div class="info-cell"><div class="info-key">Simulateur</div><div class="info-val">Cisco Packet Tracer</div></div>
+        <div class="info-cell"><div class="info-key">Protocoles</div><div class="info-val">OSI L2 / L3</div></div>
+        <div class="info-cell"><div class="info-key">Équipements</div><div class="info-val">Switches, Routeurs</div></div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Ce que je sais faire</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Segmentation réseau</div>
+            <div class="step-desc">Création et configuration de VLANs pour isoler les flux (données, voix, management) et sécuriser l'infrastructure.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Routage inter-VLAN</div>
+            <div class="step-desc">Mise en place du routage entre VLANs via Router-on-a-stick ou switch L3, avec gestion des sous-interfaces.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Adressage IP</div>
+            <div class="step-desc">Conception de plans d'adressage IPv4 avec subnetting, configuration de DHCP et résolution DNS.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Dépannage</div>
+            <div class="step-desc">Diagnostic de pannes réseau avec les outils ping, traceroute, show commands Cisco et analyse de trames.</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div id="parcours">
-  <div class="section-wrap reveal">
-    <p class="section-label">Parcours</p>
-    <h2 class="section-title">Formations.</h2>
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-year">En cours</div>
-        <div>
-          <div class="tl-title">BTS CIEL — Cybersécurité, Informatique et réseaux, Électronique</div>
-          <div class="tl-desc">Spécialisation systèmes, réseaux et sécurité informatique.</div>
-        </div>
+<!-- ═══════════════════════════════════════════
+     SKILL — SYSTÈMES
+════════════════════════════════════════════ -->
+<div class="page detail-page" id="page-skill-systemes">
+  <div class="detail-hero">
+    <button class="back-btn" onclick="goHome()">Compétences</button>
+    <p class="detail-tag">Compétences · Systèmes</p>
+    <h1 class="detail-title">Systèmes</h1>
+    <p class="detail-intro">Administration de systèmes Linux et Windows Server, déploiement automatisé et gestion de flotte en environnement professionnel.</p>
+  </div>
+  <div class="detail-body">
+    <div class="detail-section">
+      <div class="detail-section-title">Technologies maîtrisées</div>
+      <div class="tags-wrap">
+        <span class="pill">Linux (Debian / Ubuntu)</span>
+        <span class="pill">Windows Server 2019</span>
+        <span class="pill">Active Directory</span>
+        <span class="pill">GPO</span>
+        <span class="pill">MDT</span>
+        <span class="pill">MDM (Intune)</span>
+        <span class="pill">SSH</span>
+        <span class="pill">Bash</span>
+        <span class="pill">PowerShell</span>
+        <span class="pill">WDS</span>
       </div>
-      <div class="tl-item">
-        <div class="tl-year">Antérieur</div>
-        <div>
-          <div class="tl-title">Licence Physique</div>
-          <div class="tl-desc">Bases scientifiques et rigueur analytique appliquée.</div>
-        </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Niveau &amp; contexte</div>
+      <div class="info-grid">
+        <div class="info-cell"><div class="info-key">OS Linux</div><div class="info-val">Debian / Ubuntu</div></div>
+        <div class="info-cell"><div class="info-key">OS Windows</div><div class="info-val">Server 2019 / 2022</div></div>
+        <div class="info-cell"><div class="info-key">Déploiement</div><div class="info-val">MDT + WDS</div></div>
+        <div class="info-cell"><div class="info-key">Gestion flotte</div><div class="info-val">MDM / Intune</div></div>
       </div>
-      <div class="tl-item">
-        <div class="tl-year">Bac</div>
-        <div>
-          <div class="tl-title">BAC STI2D</div>
-          <div class="tl-desc">Sciences et Technologies de l'Industrie et du Développement Durable.</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Ce que je sais faire</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Administration Linux</div>
+            <div class="step-desc">Gestion des utilisateurs, droits, services systemd, configuration réseau, scripting Bash pour l'automatisation.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Active Directory &amp; GPO</div>
+            <div class="step-desc">Création et gestion de domaines Windows, organisation des UO, déploiement de stratégies de groupe.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Déploiement MDT</div>
+            <div class="step-desc">Construction de séquences de tâches pour déployer Windows en masse sur un parc, avec drivers et logiciels intégrés.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Gestion MDM</div>
+            <div class="step-desc">Enrollment et supervision des appareils mobiles et postes via une solution MDM, application de politiques de sécurité.</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div id="skills">
-  <div class="section-wrap reveal">
-    <p class="section-label">Compétences</p>
-    <h2 class="section-title">Stack technique.</h2>
-    <div class="skills-grid">
-      <div class="skill-cell">
-        <div class="skill-heading">Réseaux</div>
-        <ul class="skill-list">
-          <li>VLAN</li><li>TCP/IP</li><li>Routage</li><li>Cisco</li>
-        </ul>
+<!-- ═══════════════════════════════════════════
+     SKILL — OUTILS
+════════════════════════════════════════════ -->
+<div class="page detail-page" id="page-skill-outils">
+  <div class="detail-hero">
+    <button class="back-btn" onclick="goHome()">Compétences</button>
+    <p class="detail-tag">Compétences · Outils &amp; Cloud</p>
+    <h1 class="detail-title">Outils &amp; Cloud</h1>
+    <p class="detail-intro">Gestion de parc, virtualisation et services cloud. Des outils du quotidien en environnement IT d'entreprise.</p>
+  </div>
+  <div class="detail-body">
+    <div class="detail-section">
+      <div class="detail-section-title">Technologies maîtrisées</div>
+      <div class="tags-wrap">
+        <span class="pill">GLPI</span>
+        <span class="pill">FusionInventory</span>
+        <span class="pill">VirtualBox</span>
+        <span class="pill">VMware (bases)</span>
+        <span class="pill">Microsoft Azure</span>
+        <span class="pill">Microsoft 365</span>
+        <span class="pill">Intune</span>
+        <span class="pill">Git</span>
       </div>
-      <div class="skill-cell">
-        <div class="skill-heading">Systèmes</div>
-        <ul class="skill-list">
-          <li>Linux</li><li>Windows Server</li><li>MDT</li><li>MDM</li>
-        </ul>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Niveau &amp; contexte</div>
+      <div class="info-grid">
+        <div class="info-cell"><div class="info-key">ITSM</div><div class="info-val">GLPI</div></div>
+        <div class="info-cell"><div class="info-key">Virtualisation</div><div class="info-val">VirtualBox</div></div>
+        <div class="info-cell"><div class="info-key">Cloud</div><div class="info-val">Microsoft Azure</div></div>
+        <div class="info-cell"><div class="info-key">Ticketing</div><div class="info-val">GLPI Helpdesk</div></div>
       </div>
-      <div class="skill-cell">
-        <div class="skill-heading">Outils &amp; Cloud</div>
-        <ul class="skill-list">
-          <li>GLPI</li><li>VirtualBox</li><li>Microsoft Azure</li>
-        </ul>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Ce que je sais faire</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">GLPI — Gestion de parc</div>
+            <div class="step-desc">Inventaire automatique des assets via FusionInventory, gestion des licences, suivi des tickets d'incidents.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Virtualisation</div>
+            <div class="step-desc">Création et gestion de machines virtuelles sous VirtualBox pour les labs et les tests d'infrastructure.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Microsoft Azure</div>
+            <div class="step-desc">Gestion d'identités Azure AD, déploiement de VMs, bases des services cloud Microsoft 365 et Intune.</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<div id="projects">
-  <div class="section-wrap reveal">
-    <p class="section-label">Projets</p>
-    <h2 class="section-title">Réalisations.</h2>
-    <div class="projects-list">
-      <div class="project-row">
-        <div class="project-index">01</div>
-        <div>
-          <div class="project-name">Lab réseau Cisco</div>
-          <div class="project-desc">Configuration de VLANs et routage inter-VLAN sur équipements Cisco en environnement de simulation.</div>
+<!-- ═══════════════════════════════════════════
+     PROJECT — CISCO
+════════════════════════════════════════════ -->
+<div class="page detail-page" id="page-proj-cisco">
+  <div class="detail-hero">
+    <button class="back-btn" onclick="goHome()">Projets</button>
+    <p class="detail-tag">Projet 01 · Réseaux</p>
+    <h1 class="detail-title">Lab réseau Cisco</h1>
+    <p class="detail-intro">Conception et configuration d'une infrastructure réseau segmentée avec VLANs et routage inter-VLAN sur équipements Cisco.</p>
+  </div>
+  <div class="detail-body">
+    <div class="detail-section">
+      <div class="detail-section-title">Contexte</div>
+      <p class="detail-text">Projet réalisé dans le cadre du BTS CIEL. L'objectif était de simuler une infrastructure réseau d'entreprise réaliste avec plusieurs départements isolés en VLANs communicant via un routeur central.</p>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Informations</div>
+      <div class="info-grid">
+        <div class="info-cell"><div class="info-key">Outil</div><div class="info-val">Cisco Packet Tracer</div></div>
+        <div class="info-cell"><div class="info-key">Équipements</div><div class="info-val">Switch 2960, Router 2911</div></div>
+        <div class="info-cell"><div class="info-key">Protocole</div><div class="info-val">802.1Q, OSPF</div></div>
+        <div class="info-cell"><div class="info-key">VLANs</div><div class="info-val">4 segments</div></div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Déroulement</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Conception de la topologie</div>
+            <div class="step-desc">Définition du plan d'adressage IP, répartition des VLANs par département (RH, IT, Direction, Serveurs).</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Configuration des switches</div>
+            <div class="step-desc">Création des VLANs, affectation des ports en mode access et trunk, configuration du STP.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Routage inter-VLAN</div>
+            <div class="step-desc">Configuration du routeur en Router-on-a-stick avec sous-interfaces 802.1Q, vérification de la connectivité entre VLANs.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Tests &amp; validation</div>
+            <div class="step-desc">Tests de connectivité ping, vérification des tables de routage, simulation de pannes et dépannage.</div>
+          </div>
         </div>
       </div>
-      <div class="project-row">
-        <div class="project-index">02</div>
-        <div>
-          <div class="project-name">Serveur GLPI</div>
-          <div class="project-desc">Déploiement et administration d'une solution de gestion de parc informatique pour le suivi d'actifs et tickets.</div>
-        </div>
-      </div>
-      <div class="project-row">
-        <div class="project-index">03</div>
-        <div>
-          <div class="project-name">Déploiement &amp; Gestion de flotte</div>
-          <div class="project-desc">Déploiement automatisé d'appareils d'entreprise via MDT et gestion centralisée via MDM.</div>
-        </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Technologies utilisées</div>
+      <div class="tags-wrap">
+        <span class="pill">VLAN 802.1Q</span>
+        <span class="pill">Trunk / Access</span>
+        <span class="pill">Router-on-a-stick</span>
+        <span class="pill">DHCP</span>
+        <span class="pill">Cisco IOS</span>
+        <span class="pill">Packet Tracer</span>
       </div>
     </div>
   </div>
 </div>
 
-<div id="contact">
-  <div class="section-wrap reveal">
-    <p class="section-label">Contact</p>
-    <h2 class="section-title" style="text-align:center">Travaillons ensemble.</h2>
-    <div class="contact-body">
-      <p>Disponible pour une alternance ou une opportunité dans les réseaux &amp; systèmes.</p>
-      <div class="contact-links">
-        <a href="BTS_SIO_CV_Hugo_ZAMORA_AURLOM.pdf.pdf" class="btn btn-fill">Télécharger le CV</a>
-        <a href="https://github.com/hugoz75" class="btn btn-outline" target="_blank" rel="noopener">GitHub</a>
+<!-- ═══════════════════════════════════════════
+     PROJECT — GLPI
+════════════════════════════════════════════ -->
+<div class="page detail-page" id="page-proj-glpi">
+  <div class="detail-hero">
+    <button class="back-btn" onclick="goHome()">Projets</button>
+    <p class="detail-tag">Projet 02 · Systèmes</p>
+    <h1 class="detail-title">Serveur GLPI</h1>
+    <p class="detail-intro">Déploiement et administration d'une solution ITSM complète pour la gestion du parc informatique et le traitement des incidents.</p>
+  </div>
+  <div class="detail-body">
+    <div class="detail-section">
+      <div class="detail-section-title">Contexte</div>
+      <p class="detail-text">Mise en place d'un serveur GLPI sur une VM Debian pour centraliser la gestion du parc informatique — inventaire des assets, suivi des licences logicielles et helpdesk pour les utilisateurs.</p>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Informations</div>
+      <div class="info-grid">
+        <div class="info-cell"><div class="info-key">OS serveur</div><div class="info-val">Debian 11</div></div>
+        <div class="info-cell"><div class="info-key">Stack</div><div class="info-val">LAMP (Apache, MySQL)</div></div>
+        <div class="info-cell"><div class="info-key">Inventaire</div><div class="info-val">FusionInventory</div></div>
+        <div class="info-cell"><div class="info-key">Virtualisation</div><div class="info-val">VirtualBox</div></div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Déroulement</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Installation du serveur</div>
+            <div class="step-desc">Déploiement d'une VM Debian, installation et configuration de la stack LAMP, sécurisation de MySQL.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Installation GLPI</div>
+            <div class="step-desc">Téléchargement, configuration Apache, création de la base de données, installation guidée de GLPI.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Inventaire automatique</div>
+            <div class="step-desc">Déploiement du plugin FusionInventory sur les postes clients pour la remontée automatique des assets.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Configuration du helpdesk</div>
+            <div class="step-desc">Création des groupes utilisateurs, catégories de tickets, règles de routage et SLAs.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Technologies utilisées</div>
+      <div class="tags-wrap">
+        <span class="pill">GLPI 10</span>
+        <span class="pill">Debian Linux</span>
+        <span class="pill">Apache</span>
+        <span class="pill">MySQL</span>
+        <span class="pill">PHP</span>
+        <span class="pill">FusionInventory</span>
+        <span class="pill">VirtualBox</span>
       </div>
     </div>
   </div>
 </div>
 
-<footer>
-  <span>Hugo Zamora</span>
-  <span>© 2026</span>
-</footer>
+<!-- ═══════════════════════════════════════════
+     PROJECT — FLOTTE
+════════════════════════════════════════════ -->
+<div class="page detail-page" id="page-proj-flotte">
+  <div class="detail-hero">
+    <button class="back-btn" onclick="goHome()">Projets</button>
+    <p class="detail-tag">Projet 03 · Systèmes</p>
+    <h1 class="detail-title">Déploiement &amp; Gestion de flotte</h1>
+    <p class="detail-intro">Automatisation du déploiement Windows en entreprise via MDT et supervision centralisée de la flotte via une solution MDM.</p>
+  </div>
+  <div class="detail-body">
+    <div class="detail-section">
+      <div class="detail-section-title">Contexte</div>
+      <p class="detail-text">Projet visant à industrialiser le déploiement de postes Windows dans un contexte d'entreprise — réduction du temps d'installation, standardisation des images système et gestion centralisée de la flotte via MDM.</p>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Informations</div>
+      <div class="info-grid">
+        <div class="info-cell"><div class="info-key">Déploiement</div><div class="info-val">MDT + WDS</div></div>
+        <div class="info-cell"><div class="info-key">OS déployé</div><div class="info-val">Windows 10/11</div></div>
+        <div class="info-cell"><div class="info-key">MDM</div><div class="info-val">Microsoft Intune</div></div>
+        <div class="info-cell"><div class="info-key">Cloud</div><div class="info-val">Azure AD</div></div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Déroulement</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Mise en place MDT</div>
+            <div class="step-desc">Installation de Microsoft Deployment Toolkit, création du partage de déploiement, import des images Windows.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Construction de la séquence de tâches</div>
+            <div class="step-desc">Intégration des drivers, applications silencieuses (Office, antivirus), paramétrage des étapes de personnalisation.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Démarrage réseau WDS</div>
+            <div class="step-desc">Configuration du serveur WDS pour le boot PXE, permettant le déploiement sans média physique sur les postes.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Enrollment MDM</div>
+            <div class="step-desc">Inscription automatique des postes dans Microsoft Intune via Azure AD Join, déploiement des politiques de sécurité et applications.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Technologies utilisées</div>
+      <div class="tags-wrap">
+        <span class="pill">MDT</span>
+        <span class="pill">WDS / PXE</span>
+        <span class="pill">Windows 10/11</span>
+        <span class="pill">Microsoft Intune</span>
+        <span class="pill">Azure AD</span>
+        <span class="pill">PowerShell</span>
+        <span class="pill">SCCM (notions)</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
-  const obs = new IntersectionObserver(
-    entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } }),
-    { threshold: 0.1 }
-  );
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  // ── NAVIGATION ──
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + id);
+    if (target) {
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  }
+
+  function goHome() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-home').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    // re-trigger reveals
+    setTimeout(initReveal, 50);
+  }
+
+  function scrollTo(id) {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 60);
+  }
+
+  // ── SCROLL REVEAL ──
+  function initReveal() {
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }
+      }),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('#page-home .reveal:not(.on)').forEach(el => obs.observe(el));
+  }
+  initReveal();
 </script>
 </body>
 </html>
