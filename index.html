@@ -50,6 +50,7 @@
   .nav-links a {
     color: var(--muted); text-decoration: none;
     font-size: .8rem; font-weight: 400; transition: color .2s; cursor: pointer;
+    background: none; border: none; font-family: inherit;
   }
   .nav-links a:hover { color: var(--text); }
 
@@ -330,11 +331,11 @@
 <nav>
   <span class="nav-logo" onclick="goHome()">Hugo Zamora</span>
   <div class="nav-links">
-    <a onclick="goHome(); scrollTo('about')">À propos</a>
-    <a onclick="goHome(); scrollTo('parcours')">Parcours</a>
-    <a onclick="goHome(); scrollTo('skills')">Compétences</a>
-    <a onclick="goHome(); scrollTo('projects')">Projets</a>
-    <a onclick="goHome(); scrollTo('contact')">Contact</a>
+    <a onclick="goHome(); navScroll('about')">À propos</a>
+    <a onclick="goHome(); navScroll('parcours')">Parcours</a>
+    <a onclick="goHome(); navScroll('skills')">Compétences</a>
+    <a onclick="goHome(); navScroll('projects')">Projets</a>
+    <a onclick="goHome(); navScroll('contact')">Contact</a>
   </div>
 </nav>
 
@@ -349,7 +350,7 @@
     <p class="hero-sub">Infrastructure · Réseaux · Systèmes d'information</p>
     <div class="hero-actions">
       <a href="BTS_SIO_CV_Hugo_ZAMORA_AURLOM.pdf.pdf" class="btn btn-fill">Voir le CV</a>
-      <span class="btn btn-outline" onclick="scrollTo('projects')">Projets</span>
+      <span class="btn btn-outline" onclick="navScroll('projects')">Projets</span>
     </div>
   </section>
 
@@ -913,11 +914,10 @@
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-home').classList.add('active');
     window.scrollTo({ top: 0, behavior: 'instant' });
-    // re-trigger reveals
     setTimeout(initReveal, 50);
   }
 
-  function scrollTo(id) {
+  function navScroll(id) {
     setTimeout(() => {
       const el = document.getElementById(id);
       if (el) el.scrollIntoView({ behavior: 'smooth' });
